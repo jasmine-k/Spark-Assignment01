@@ -30,6 +30,7 @@ object RDDOperations extends App {
 
   /**
     * Total number of records in dataset
+    * Output: Total Number of records are : 7598006
     */
   sparkLogger.info("Total Number of records are : " + pagecounts.count())
 
@@ -40,11 +41,24 @@ object RDDOperations extends App {
 
   /**
     * Number of records for english pages
+    * Output: Number of records for english pages are : 2278417
     */
   sparkLogger.info("Number of records for english pages are : " + englishRDD.count())
 
   /**
     * ​ Pages​ ​ that​ ​ were​ ​ requested​ ​ more​ ​ than​ ​ 200,000​ ​ times​ ​ in​ ​ total
+    * Output: Pages that were requested 200,000 times in total are :
+              (de,1040678)
+              (ru,477729)
+              (Special:HideBanners,1362459)
+              (pt,320239)
+              (Main_Page,450191)
+              (ja,335982)
+              (en,4925925)
+              (it,746508)
+              (pl,223976)
+              (fr,783966)
+              (es,1083799)
     */
   val pagesResult = pagecounts.map(record => (record.split(" ")(1), record.split(" ")(2).toInt)).reduceByKey(_ + _).filter(_._2 > 200000)
   sparkLogger.info("Pages that were requested 200,000 times in total are : \n" + pagesResult.collect().mkString("\n"))
